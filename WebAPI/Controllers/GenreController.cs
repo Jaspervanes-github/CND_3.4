@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Queries;
+using WebAPI.Entities;
 
 namespace WebAPI.Controllers
 {
@@ -43,20 +45,6 @@ namespace WebAPI.Controllers
             body.Db = Db;
             await body.InsertAsync();
             return new OkObjectResult(body);
-        }
-
-        // PUT api/genre/Action
-        [HttpPut("{type}")]
-        public async Task<IActionResult> PutOne(string type, [FromBody] Genre body)
-        {
-            await Db.Connection.OpenAsync();
-            var query = new GenreQuery(Db);
-            var result = await query.FindOneAsync(type);
-            if (result is null)
-                return new NotFoundResult();
-            result.Type = body.Type;
-            await result.UpdateAsync();
-            return new OkObjectResult(result);
         }
 
         // DELETE api/genre/Action

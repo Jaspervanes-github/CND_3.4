@@ -3,7 +3,7 @@ using System.Data;
 using System.Threading.Tasks;
 using MySqlConnector;
 
-namespace WebAPI
+namespace WebAPI.Entities
 {
     public class Genre
     {
@@ -26,21 +26,12 @@ namespace WebAPI
             cmd.CommandText = @"INSERT INTO genre (type) VALUES (@type);";
             BindParams(cmd);
             await cmd.ExecuteNonQueryAsync();
-            Type = "Drama";
-        }
-
-        public async Task UpdateAsync()
-        {
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"UPDATE `genre` SET `type` = @type WHERE `type` = @type;";
-            BindParams(cmd);
-            await cmd.ExecuteNonQueryAsync();
         }
 
         public async Task DeleteAsync()
         {
             using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"DELETE FROM `BlogPost` WHERE `type` = @type;";
+            cmd.CommandText = @"DELETE FROM `genre` WHERE `type` = @type;";
             BindParams(cmd);
             await cmd.ExecuteNonQueryAsync();
         }
