@@ -61,7 +61,6 @@ namespace WebAPI.Controllers
             var result = await query.FindOneAsync(id);
             if (result is null)
                 return new NotFoundResult();
-            result.MovieId = body.MovieId;
             result.Rating = body.Rating;
             result.Content = body.Content;
             await result.UpdateAsync();
