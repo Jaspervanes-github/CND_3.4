@@ -43,7 +43,7 @@ namespace WebAPI.Controllers
         {
             await Db.Connection.OpenAsync();
             var query = new MovieQuery(Db);
-            var result = await query.FindOneAsync(title);
+            var result = await query.FindOneAsyncFromTitle(title);
             if (result is null)
                 return new NotFoundResult();
             body.Db = Db;

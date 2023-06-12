@@ -37,6 +37,54 @@ namespace WebAPI.Controllers
             return new OkObjectResult(result);
         }
 
+        // GET api/movie/title/Tarzan
+        [HttpGet("title/{title}")]
+        public async Task<IActionResult> GetOneFromTitle(string title)
+        {
+            await Db.Connection.OpenAsync();
+            var query = new MovieQuery(Db);
+            var result = await query.FindOneAsyncFromTitle(title);
+            if (result is null)
+                return new NotFoundResult();
+            return new OkObjectResult(result);
+        }
+
+        // GET api/movie/director/James Cameron
+        [HttpGet("director/{director}")]
+        public async Task<IActionResult> GetOneFromDirector(string director)
+        {
+            await Db.Connection.OpenAsync();
+            var query = new MovieQuery(Db);
+            var result = await query.FindOneAsyncFromDirector(director);
+            if (result is null)
+                return new NotFoundResult();
+            return new OkObjectResult(result);
+        }
+
+        // GET api/movie/releaseyear/1990
+        [HttpGet("releaseyear/{releaseyear}")]
+        public async Task<IActionResult> GetOneFromReleaseYear(int releaseyear)
+        {
+            await Db.Connection.OpenAsync();
+            var query = new MovieQuery(Db);
+            var result = await query.FindOneAsyncFromReleaseYear(releaseyear);
+            if (result is null)
+                return new NotFoundResult();
+            return new OkObjectResult(result);
+        }
+
+        // GET api/movie/genre/Action
+        [HttpGet("genre/{genre_type}")]
+        public async Task<IActionResult> GetOneFromGenreType(string genre_type)
+        {
+            await Db.Connection.OpenAsync();
+            var query = new MovieQuery(Db);
+            var result = await query.FindOneAsyncFromGenreType(genre_type);
+            if (result is null)
+                return new NotFoundResult();
+            return new OkObjectResult(result);
+        }
+
         // POST api/movie
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Movie body)

@@ -31,15 +31,57 @@ namespace WebAPI.Queries
             return result.Count > 0 ? result[0] : null;
         }
 
-        public async Task<Movie> FindOneAsync(string title)
+        public async Task<Movie> FindOneAsyncFromTitle(string title)
         {
             using var cmd = Db.Connection.CreateCommand();
             cmd.CommandText = @"SELECT `id`, `title`, `director`, `releaseyear`, `genre_type` FROM `movie` WHERE `title` = @title";
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@title",
-                DbType = DbType.Int32,
+                DbType = DbType.String,
                 Value = title,
+            });
+            var result = await ReadAllAsync(await cmd.ExecuteReaderAsync());
+            return result.Count > 0 ? result[0] : null;
+        }
+
+        public async Task<Movie> FindOneAsyncFromDirector(string director)
+        {
+            using var cmd = Db.Connection.CreateCommand();
+            cmd.CommandText = @"SELECT `id`, `title`, `director`, `releaseyear`, `genre_type` FROM `movie` WHERE `director` = @director";
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@director",
+                DbType = DbType.String,
+                Value = director,
+            });
+            var result = await ReadAllAsync(await cmd.ExecuteReaderAsync());
+            return result.Count > 0 ? result[0] : null;
+        }
+
+        public async Task<Movie> FindOneAsyncFromReleaseYear(int releaseyear)
+        {
+            using var cmd = Db.Connection.CreateCommand();
+            cmd.CommandText = @"SELECT `id`, `title`, `director`, `releaseyear`, `genre_type` FROM `movie` WHERE `releaseyear` = @releaseyear";
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@releaseyear",
+                DbType = DbType.Int32,
+                Value = releaseyear,
+            });
+            var result = await ReadAllAsync(await cmd.ExecuteReaderAsync());
+            return result.Count > 0 ? result[0] : null;
+        }
+
+        public async Task<Movie> FindOneAsyncFromGenreType(string genre_type)
+        {
+            using var cmd = Db.Connection.CreateCommand();
+            cmd.CommandText = @"SELECT `id`, `title`, `director`, `releaseyear`, `genre_type` FROM `movie` WHERE `genre_type` = @genre_type";
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@genre_type",
+                DbType = DbType.Int32,
+                Value = genre_type,
             });
             var result = await ReadAllAsync(await cmd.ExecuteReaderAsync());
             return result.Count > 0 ? result[0] : null;
