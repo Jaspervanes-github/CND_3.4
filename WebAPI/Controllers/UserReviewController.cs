@@ -37,6 +37,18 @@ namespace WebAPI.Controllers
             return new OkObjectResult(result);
         }
 
+        // GET api/reviewlist/1
+        [HttpGet("list/{list_id}")]
+        public async Task<IActionResult> GetOneFromListId(int list_id)
+        {
+            await Db.Connection.OpenAsync();
+            var query = new UserReviewQuery(Db);
+            var result = await query.FindOneAsyncFromListId(list_id);
+            if (result is null)
+                return new NotFoundResult();
+            return new OkObjectResult(result);
+        }
+
         // POST api/reviewlist
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UserReview body)

@@ -31,6 +31,20 @@ namespace WebAPI.Queries
             return result.Count > 0 ? result[0] : null;
         }
 
+        public async Task<UserReview> FindOneAsyncFromListId(int list_id)
+        {
+            using var cmd = Db.Connection.CreateCommand();
+            cmd.CommandText = @"SELECT `id`, `reviewlist_id`, `review_id` FROM `userreview` WHERE `reviewlist_id` = @reviewlist_id";
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@reviewlist_id",
+                DbType = DbType.Int32,
+                Value = list_id,
+            });
+            var result = await ReadAllAsync(await cmd.ExecuteReaderAsync());
+            return result.Count > 0 ? result[0] : null;
+        }
+
         public async Task<List<UserReview>> LatestPostsAsync()
         {
             using var cmd = Db.Connection.CreateCommand();
