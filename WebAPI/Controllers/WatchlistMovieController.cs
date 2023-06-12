@@ -25,6 +25,18 @@ namespace WebAPI.Controllers
             return new OkObjectResult(result);
         }
 
+        // GET api/watchlist/list/1
+        [HttpGet("list/{list_id}")]
+        public async Task<IActionResult> GetOneFromListId(int list_id)
+        {
+            await Db.Connection.OpenAsync();
+            var query = new WatchlistMovieQuery(Db);
+            var result = await query.FindOneAsyncFromListId(list_id);
+            if (result is null)
+                return new NotFoundResult();
+            return new OkObjectResult(result);
+        }
+
         // GET api/watchlist/1
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOne(int id)

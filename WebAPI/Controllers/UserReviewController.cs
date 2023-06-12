@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
             return new OkObjectResult(result);
         }
 
-        // GET api/reviewlist/1
+        // GET api/reviewlist/list/1
         [HttpGet("list/{list_id}")]
         public async Task<IActionResult> GetOneFromListId(int list_id)
         {

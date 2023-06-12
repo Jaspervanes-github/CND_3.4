@@ -31,6 +31,20 @@ namespace WebAPI.Queries
             return result.Count > 0 ? result[0] : null;
         }
 
+        public async Task<WatchlistMovie> FindOneAsyncFromListId(int list_id)
+        {
+            using var cmd = Db.Connection.CreateCommand();
+            cmd.CommandText = @"SELECT `id`, `watchlist_id`, `movie_id` FROM `watchlistmovie` WHERE `watchlist_id` = @watchlist_id";
+            cmd.Parameters.Add(new MySqlParameter
+            {
+                ParameterName = "@watchlist_id",
+                DbType = DbType.Int32,
+                Value = list_id,
+            });
+            var result = await ReadAllAsync(await cmd.ExecuteReaderAsync());
+            return result.Count > 0 ? result[0] : null;
+        }
+
         public async Task<List<WatchlistMovie>> LatestPostsAsync()
         {
             using var cmd = Db.Connection.CreateCommand();
